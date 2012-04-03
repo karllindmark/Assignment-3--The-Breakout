@@ -91,7 +91,7 @@ public class Block {
     
     //Misc
     public int getCollisionDirection(Ball b1) {
-
+        
         //We need to compare the "old" values
         Rect curr = b1.getRectangle();
         Rect old = b1.getOldRectangle();

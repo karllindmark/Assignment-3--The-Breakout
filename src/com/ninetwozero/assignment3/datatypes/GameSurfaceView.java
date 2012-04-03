@@ -732,11 +732,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
             }
             
             // Is it travelling upwards towards the roof?
-            if (ballData.getTop() <= blocks[numBlocks - 1].getBottom()) {
-
-                processForBlockCollision();
-                
-            } else if( ballData.getDirectionY() == Ball.DIRECTION_UP ) {
+            if( ballData.getDirectionY() == Ball.DIRECTION_UP ) {
                 
                 if ((ballData.getTop()-ballData.getSpeedY()) < 0) {
     
@@ -745,6 +741,10 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
                     
                     // Set the direction
                     ballData.setDirectionY(Ball.DIRECTION_DOWN);
+                    
+                } else if (ballData.getTop() <= blocks[numBlocks - 1].getBottom()) {
+
+                    processForBlockCollision();
                     
                 } 
 
@@ -758,6 +758,10 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
                     // Increment the paddle hits
                     setState(STATE_PADDLE);
                 
+                } else if (ballData.getTop() <= blocks[numBlocks - 1].getBottom()) {
+
+                    processForBlockCollision();
+                    
                 } else if( ballData.getBottom() > viewMaxHeight) {
 
                     // Set the state
