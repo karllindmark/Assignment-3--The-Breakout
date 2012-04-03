@@ -16,7 +16,6 @@ package com.ninetwozero.assignment3;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -24,7 +23,6 @@ import android.widget.TextView;
 
 import com.ninetwozero.assignment3.datatypes.GameSurfaceView;
 import com.ninetwozero.assignment3.datatypes.GameSurfaceView.GameThread;
-import com.ninetwozero.assignment3.misc.Constants;
 
 public class GameActivity extends Activity {
 
@@ -32,6 +30,12 @@ public class GameActivity extends Activity {
     private GameSurfaceView gameSurfaceView;
     private GameThread gameThread;
     private View viewOverlay;
+
+    /*
+     * Standard onCreate() that initiates the GameActivity
+     * @param Bundle The savedInstanceState
+     * @see android.app.Activity#onCreate(android.os.Bundle)
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +73,22 @@ public class GameActivity extends Activity {
 
     }
 
+    /*
+     * Method that overrides the default Activity::onPause() and pauses the game
+     * thread
+     * @see android.app.Activity#onPause()
+     */
+
     @Override
     protected void onPause() {
         super.onPause();
         gameSurfaceView.getThread().pause();
     }
 
+    /*
+     * Method that handles the onClick method for the overlay
+     * @param View The clicked view
+     */
     public void onClick(View v) {
 
         if (v.getId() == R.id.window_overlay) {
@@ -85,6 +99,12 @@ public class GameActivity extends Activity {
         }
 
     }
+
+    /*
+     * Overridden method to save the instance state from the game thread
+     * @param Bundle The (soon to be) savedInstanceState
+     * @see android.app.Activity#onSaveInstanceState(android.os.Bundle)
+     */
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

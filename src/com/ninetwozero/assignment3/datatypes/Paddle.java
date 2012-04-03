@@ -32,21 +32,30 @@ public class Paddle {
     // Constructs
     public Paddle(int w, int h) {
 
-        //set the size
+        // set the size
         width = w;
         height = h;
-        
-        //Init
+
+        // Init
         rectangle = new Rect(-1, -1, -1, -1);
         moving = false;
     }
 
     // Getters
+    /*
+     * Method to return the left position for the paddle
+     * @returns int Left position for the paddle
+     */
     public int getLeft() {
 
         return rectangle.left;
 
     }
+
+    /*
+     * Method to return the top position for the paddle
+     * @returns int Top position for the paddle
+     */
 
     public int getTop() {
 
@@ -54,11 +63,21 @@ public class Paddle {
 
     }
 
+    /*
+     * Method to return the right position for the paddle
+     * @returns int Right position for the paddle
+     */
+
     public int getRight() {
 
         return rectangle.right;
 
     }
+
+    /*
+     * Method to return the bottom position for the paddle
+     * @returns int Bottom position for the paddle
+     */
 
     public int getBottom() {
 
@@ -66,22 +85,41 @@ public class Paddle {
 
     }
 
+    /*
+     * Method to return the rectangle for the paddle
+     * @returns Rect The rectangle for the paddle
+     */
+
     public Rect getRectangle() {
 
         return rectangle;
 
     }
-    
+
+    /*
+     * Method to return the width of the paddle
+     * @returns int The width of the paddle
+     */
+
     public int getWidth() {
-        
+
         return rectangle.right - rectangle.left;
     }
 
+    /*
+     * Method to return the height of the paddle
+     * @returns int The height of the paddle
+     */
+
     public int getHeight() {
-    
+
         return rectangle.bottom - rectangle.top;
     }
 
+    /*
+     * Method to verify wether or not the paddle is moving
+     * @returns boolean If the ball is moving or not
+     */
 
     public boolean isMoving() {
 
@@ -90,12 +128,22 @@ public class Paddle {
     }
 
     // Setters
+    /*
+     * Method to set the left position of the ball
+     * @param int Position to be set
+     */
+
     public void setLeft(int l) {
 
         rectangle.left = l;
         rectangle.right = l + width;
 
     }
+
+    /*
+     * Method to set the top position of the ball
+     * @param int Position to be set
+     */
 
     public void setTop(int t) {
 
@@ -104,12 +152,22 @@ public class Paddle {
 
     }
 
+    /*
+     * Method to set the right position of the ball
+     * @param int Position to be set
+     */
+
     public void setRight(int r) {
 
         rectangle.left = r - width;
         rectangle.right = r;
 
     }
+
+    /*
+     * Method to set the bottom position of the ball
+     * @param int Position to be set
+     */
 
     public void setBottom(int b) {
 
@@ -118,11 +176,22 @@ public class Paddle {
 
     }
 
+    /*
+     * Method to set the moving-flag
+     * @param boolean Whether or not the paddle is moving
+     */
+
     public void setMoving(boolean m) {
 
         moving = m;
 
     }
+
+    /*
+     * Method to set the dimensions of the paddle
+     * @param int The width
+     * @param int The height
+     */
 
     public void setDimensions(int w, int h) {
 
@@ -130,23 +199,30 @@ public class Paddle {
         height = h;
 
     }
-    
-    //Misc
+
+    // Misc
+
+    /*
+     * Method to calculate where a given rectangle intersects the paddle
+     * @param Rect
+     * @return int Point of intersect (relative to the paddle)
+     */
+
     public int calculateIntersectX(Rect r) {
-        
-        if( r.left < rectangle.right && r.right > rectangle.right ) {
-        
-            return (rectangle.right-rectangle.left)-((r.right-rectangle.right)/2);
-            
-        } else if( r.right > rectangle.left && r.left < rectangle.left ) {
-    
-                return (r.right-rectangle.left)/2;
-        
+
+        if (r.left < rectangle.right && r.right > rectangle.right) {
+
+            return (rectangle.right - rectangle.left) - ((r.right - rectangle.right) / 2);
+
+        } else if (r.right > rectangle.left && r.left < rectangle.left) {
+
+            return (r.right - rectangle.left) / 2;
+
         } else {
-         
-            return r.left-rectangle.left;
+
+            return r.left - rectangle.left;
         }
-    
+
     }
-    
+
 }

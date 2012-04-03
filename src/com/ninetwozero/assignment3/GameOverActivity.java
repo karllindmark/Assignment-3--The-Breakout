@@ -11,9 +11,8 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
  */
-package com.ninetwozero.assignment3;
 
-import com.ninetwozero.assignment3.misc.Constants;
+package com.ninetwozero.assignment3;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -25,6 +24,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.ninetwozero.assignment3.misc.Constants;
+
 public class GameOverActivity extends Activity {
 
     // Attributes
@@ -34,6 +35,12 @@ public class GameOverActivity extends Activity {
 
     // Elements
     private TextView textScore;
+
+    /*
+     * Standard onCreate() that initiates the GameOverActivity
+     * @param Bundle The savedInstanceState
+     * @see android.app.Activity#onCreate(android.os.Bundle)
+     */
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,7 +63,7 @@ public class GameOverActivity extends Activity {
         // Populate the textfield
         textScore.setText(getString(R.string.info_top_score).replace("{score}", score + ""));
 
-        // Update SP
+        // Update SP & commit
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor spEditor = sharedPreferences.edit();
         spEditor.putLong(Constants.SP_LIFETIME_SCORE,
@@ -69,6 +76,11 @@ public class GameOverActivity extends Activity {
                 sharedPreferences.getLong(Constants.SP_LIFETIME_LOSSES, 0) + 1);
         spEditor.commit();
     }
+
+    /*
+     * onClick handler for the R.id.root (as specified in xml)
+     * @param View The clicked view
+     */
 
     public void onClick(View v) {
 

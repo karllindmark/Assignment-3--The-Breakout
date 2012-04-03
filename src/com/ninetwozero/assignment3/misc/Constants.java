@@ -25,4 +25,10 @@ public class Constants {
     public final static String SP_LIFETIME_LOSSES = "lifetime_losses";
     public final static String SP_LIFETIME_PADDLE_HITS = "lifetime_paddle_hits";
 
+    /*
+     * Private constructor for the class
+     */
+
+    private Constants() {
+    };
 }

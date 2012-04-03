@@ -11,7 +11,8 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
-*/
+ */
+
 package com.ninetwozero.assignment3.datatypes;
 
 import android.app.Activity;
@@ -103,6 +104,12 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     /** The thread that actually draws the animation */
     private GameThread thread;
 
+    /*
+     * Constructor for the GameSurfaceView
+     * @param Context The context that it's been created in
+     * @param AttributeSet The attributes
+     */
+
     public GameSurfaceView(Context c, AttributeSet attrs) {
         super(c, attrs);
 
@@ -142,6 +149,9 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     }
 
+    /*
+     * Method to init the values
+     */
     public void initValues() {
 
         // Init the scaled values
@@ -169,6 +179,9 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     }
 
+    /*
+     * Method to init the Paddle
+     */
     public void initPaddle() {
 
         paddleData = new Paddle(scaledWidthPaddle, scaledHeightPaddle);
@@ -177,6 +190,9 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     }
 
+    /*
+     * Method to init the Blocks
+     */
     public void initBlocks(boolean restart) {
 
         // Are there any blocks?
@@ -238,10 +254,18 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     }
 
+    /*
+     * Method to return the GameThread
+     * @return GameThread The GameThread
+     */
     public GameThread getThread() {
         return thread;
     }
 
+    /*
+     * Overridden method to pause the thread upon losing focus
+     * @param boolean Whether or not the window has focus
+     */
     @Override
     public void onWindowFocusChanged(boolean hasWindowFocus) {
         if (!hasWindowFocus) {
@@ -249,34 +273,55 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         }
     }
 
-    // Setters for the different textviews
+    /*
+     * Method to set the TextView for the message
+     * @param TextView The referenced TextView
+     */
     public void setTextMessage(TextView tv) {
         textMessage = tv;
     }
 
+    /*
+     * Method to set the TextView for the score
+     * @param TextView The referenced TextView
+     */
     public void setTextScore(TextView tv) {
         textScore = tv;
     }
 
+    /*
+     * Method to set the TextView for the # of lives
+     * @param TextView The referenced TextView
+     */
     public void setTextLives(TextView tv) {
         textLives = tv;
     }
 
+    /*
+     * Method to set the View for the overlay
+     * @param TextView The referenced View
+     */
     public void setViewOverlay(View v) {
 
         viewOverlay = v;
 
     }
 
-    /* Callback invoked when the surface dimensions change. */
+    /*
+     * Callback for when the surface (Canvas) is changed
+     * @param SurfaceHolder The surface holder
+     * @param int The format
+     * @param int The new width
+     * @param int The new height
+     */
     public void surfaceChanged(SurfaceHolder holder, int format, int width,
             int height) {
-        thread.setSurfaceSize(width, height);
+        thread.setViewSize(width, height);
     }
 
     /*
-     * Callback invoked when the Surface has been created and is ready to be
-     * used.
+     * Callback for when the surface has been created
+     * @param SurfaceHolder The surface holder
      */
     public void surfaceCreated(SurfaceHolder holder) {
 
@@ -295,17 +340,21 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         initBlocks(false);
 
         // Start the thread
-        if( !thread.isRunning() ) {
-                 
+        if (!thread.isRunning()) {
+
             thread.setRunning(true);
             thread.start();
-        
+
         }
-       
+
     }
 
+    /*
+     * Callback for when the surface (Canvas) is destroyed
+     * @param SurfaceHolder The surface holder
+     */
     public void surfaceDestroyed(SurfaceHolder holder) {
-       
+
         boolean retry = true;
         thread.setRunning(false);
         while (retry) {
@@ -317,6 +366,11 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         }
     }
 
+    /*
+     * Callback for when an TouchEvent occurs
+     * @param MotionEvent The touch event
+     * @return boolean A flag
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
@@ -422,6 +476,12 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         private MediaPlayer soundWallBounce;
         private MediaPlayer soundPaddleBounce;
 
+        /*
+         * Construct for the GameThread
+         * @param SurfaceHolder The surface holder
+         * @param Context The context from which it has been called
+         * @param Handler The handler to be used
+         */
         public GameThread(SurfaceHolder surfaceHolder, Context c,
                 Handler handler) {
 
@@ -468,19 +528,19 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         }
 
         /**
-         * Starts the game, setting parameters for the current difficulty.
+         * Method to start the game and init the ball
          */
         public void doStart() {
             synchronized (mSurfaceHolder) {
-                
+
                 // Set the direction
-                if( mMode != STATE_PAUSE ) {
-                    
+                if (mMode != STATE_PAUSE) {
+
                     ballData.setDirectionY(Ball.DIRECTION_UP);
                     ballData.setLeft((int) (viewMaxWidth * Math.random()));
-                    ballData.setTop(viewMaxHeight-100);
-   
-                }  
+                    ballData.setTop(viewMaxHeight - 100);
+
+                }
 
                 // Let's run!
                 setState(STATE_RUNNING);
@@ -488,7 +548,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         }
 
         /**
-         * Pauses the physics update & animation.
+         * Method to pause the "game physics"
          */
         public void pause() {
             synchronized (mSurfaceHolder) {
@@ -497,6 +557,10 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
             }
         }
 
+        /*
+         * Callback for when state is to be restored
+         * @param Bundle The savedInstanceState
+         */
         public synchronized void restoreState(Bundle savedState) {
             synchronized (mSurfaceHolder) {
                 setState(STATE_PAUSE);
@@ -508,6 +572,9 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
             }
         }
 
+        /*
+         * Callback for when the thread starts running
+         */
         @Override
         public void run() {
             while (running) {
@@ -530,6 +597,11 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
             }
         }
 
+        /*
+         * Callback for when the state is to be saved
+         * @param Bundle The bundle to save everything in
+         * @return Bundle The bundle that everything is stored in
+         */
         public Bundle saveState(Bundle map) {
 
             synchronized (mSurfaceHolder) {
@@ -542,17 +614,20 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
             return map;
         }
 
+        /*
+         * Method to set the running flag
+         * @param boolean Whether or not it's running
+         */
         public void setRunning(boolean b) {
             running = b;
         }
 
-        public void setState(int mode) {
-            synchronized (mSurfaceHolder) {
-                setState(mode, null);
-            }
-        }
+        /*
+         * Method to set the state flag
+         * @param int The new state
+         */
 
-        public void setState(int mode, CharSequence message) {
+        public void setState(int mode) {
 
             synchronized (mSurfaceHolder) {
 
@@ -581,7 +656,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
                 } else if (mMode == STATE_DISABLED) {
 
                     // Let's play a sound
-                    soundBlockDisable.start();;
+                    soundBlockDisable.start();
 
                     // Update the scoring
                     numDisabledBlocks++;
@@ -596,9 +671,10 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
                     soundBlockDestroy.start();
 
                     // Update the scoring
+                    numPoints += POINTS_DEATH;
                     numDestroyedBlocks++;
                     numPoints += POINTS_DESTROY;
-                    
+
                     // Let's run!
                     setState(STATE_RUNNING);
 
@@ -606,6 +682,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
                     // So... what's up?
                     numPoints += POINTS_DEATH;
+                    ballData = new Ball(scaledWidthBall, scaledHeightBall);
 
                     visibilityOverlay = View.VISIBLE;
                     str = "YOU DIED. TAP TO RETRY.";
@@ -613,8 +690,8 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
                 } else if (mMode == STATE_WIN) {
 
                     // Save the blocks
-                    numTotalDisabledBlocks = numDisabledBlocks;
-                    numTotalDestroyedBlocks = numDestroyedBlocks;
+                    numTotalDisabledBlocks += numDisabledBlocks;
+                    numTotalDestroyedBlocks += numDestroyedBlocks;
                     numRounds++;
 
                     // Clear the counter
@@ -625,9 +702,14 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
                     initBlocks(true);
 
                     visibilityOverlay = View.VISIBLE;
-                    str = "ROUND COMPLETED. TAP TO CONTINUE";
+                    str = "ROUND COMPLETED.\nTAP TO CONTINUE";
 
                 } else if (mMode == STATE_LOSE) {
+
+                    // Let's set the final attributes
+                    numPoints += POINTS_DEATH;
+                    numTotalDisabledBlocks += numDisabledBlocks;
+                    numTotalDestroyedBlocks += numDestroyedBlocks;
 
                     // Stop the thread
                     running = false;
@@ -636,14 +718,16 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
                     // this one
                     context.startActivity(new Intent(context, GameOverActivity.class)
                             .putExtra("gameRounds", numRounds).putExtra("score", numPoints)
-                            .putExtra("paddleHits", numPaddleHits));
+                            .putExtra("paddleHits", numPaddleHits)
+                            .putExtra("numDisabled", numTotalDisabledBlocks)
+                            .putExtra("numDestroyed", numTotalDestroyedBlocks));
                     ((Activity) context).finish();
 
-                } else if( mMode == STATE_PAUSE ) { 
-                    
+                } else if (mMode == STATE_PAUSE) {
+
                     str = "PAUSED";
                     running = false;
-                    
+
                 } else {
 
                     str = "LET'S BOUNCE";
@@ -653,7 +737,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
                 b.putLong("score", numPoints);
                 b.putInt("lives", numLives);
                 b.putString("text", str);
-                b.putInt("viz", !str.equals("") ? View.VISIBLE : View.GONE );
+                b.putInt("viz", !str.equals("") ? View.VISIBLE : View.GONE);
                 b.putInt("overlay", visibilityOverlay);
                 msg.setData(b);
                 mHandler.sendMessage(msg);
@@ -662,7 +746,12 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
         }
 
-        public void setSurfaceSize(int width, int height) {
+        /*
+         * Method to set size of the view in terms of attributes
+         * @param int The width
+         * @param int The height
+         */
+        public void setViewSize(int width, int height) {
 
             synchronized (mSurfaceHolder) {
 
@@ -677,10 +766,17 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
         }
 
+        /*
+         * Method to set the state as STATE_RUNNING after being STATE_PAUSE
+         */
         public void unpause() {
             setState(STATE_RUNNING);
         }
 
+        /*
+         * Method that handles the actual "drawing"
+         * @param Canvas The canvas to draw on
+         */
         private void doDraw(Canvas canvas) {
 
             // If we ain't got nothing to draw on, we just exit
@@ -715,12 +811,18 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
             }
 
+            // Save it
+            canvas.save();
+
             /* BALL */
             canvas.drawRect(ballData.getRectangle(), paintBall);
+
+            // Restore it
+            canvas.restore();
         }
 
         /*
-         * Calculates the gameplay
+         * Method that does the hard work, ie calculating what to do
          */
         private void calculateGameplay() {
 
@@ -730,84 +832,101 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
                 setState(STATE_WIN);
                 return;
             }
-            
+
+            // If it's stalled, we need to fix it
+            if (ballData.getSpeedY() < 1) {
+
+                ballData.setSpeedY(Ball.DEFAULT_SPEED_Y / 2);
+                ballData.move();
+
+            }
+
             // Is it travelling upwards towards the roof?
-            if( ballData.getDirectionY() == Ball.DIRECTION_UP ) {
-                
-                if ((ballData.getTop()-ballData.getSpeedY()) < 0) {
-    
-                    //Set the ball at y=0
-                    ballData.setTop((int)-(ballData.getTop()-ballData.getSpeedY()));
-                    
+            if (ballData.getDirectionY() == Ball.DIRECTION_UP) {
+
+                if ((ballData.getTop() - ballData.getSpeedY()) < 0) {
+
+                    // Set the ball at y=0
+                    ballData.setTop((int) -(ballData.getTop() - ballData.getSpeedY()));
+
                     // Set the direction
                     ballData.setDirectionY(Ball.DIRECTION_DOWN);
-                    
-                } else if (ballData.getTop() <= blocks[numBlocks - 1].getBottom()) {
+
+                }
+
+                if (ballData.getTop() <= blocks[numBlocks - 1].getBottom()) {
 
                     processForBlockCollision();
-                    
-                } 
 
-            } else if( ballData.getDirectionY() == Ball.DIRECTION_DOWN ) {
-                
+                }
+
+            } else if (ballData.getDirectionY() == Ball.DIRECTION_DOWN) {
+
                 if (Rect.intersects(ballData.getRectangle(), paddleData.getRectangle())) {
 
-                    //Handle the bounce
+                    // Handle the bounce
                     handlePaddleBounce();
-                    
+
                     // Increment the paddle hits
                     setState(STATE_PADDLE);
-                
-                } else if (ballData.getTop() <= blocks[numBlocks - 1].getBottom()) {
 
-                    processForBlockCollision();
-                    
-                } else if( ballData.getBottom() > viewMaxHeight) {
+                } else if (ballData.getBottom() > viewMaxHeight) {
 
                     // Set the state
                     setState((--numLives <= 0) ? STATE_LOSE : STATE_DEATH);
 
                 }
-                
+
+                // Do we need to check for collisions?
+                if (ballData.getTop() <= blocks[numBlocks - 1].getBottom()) {
+
+                    processForBlockCollision();
+
+                }
+
             }
-            
-            if( ballData.getDirectionX() == Ball.DIRECTION_LEFT ) {
-                
-                if ( (ballData.getLeft()-ballData.getSpeedX() ) < 0 ) { 
-                
-                    //Reset
-                    ballData.setLeft((int) -(ballData.getLeft()-ballData.getSpeedX()));
-    
+
+            if (ballData.getDirectionX() == Ball.DIRECTION_LEFT) {
+
+                if ((ballData.getLeft() - ballData.getSpeedX()) < 0) {
+
+                    // Reset
+                    ballData.setLeft((int) -(ballData.getLeft() - ballData.getSpeedX()));
+
                     // Let's play a sound
                     soundWallBounce.start();
-    
+
                     // Toggle the direction
                     ballData.setDirectionX(Ball.DIRECTION_RIGHT);
-    
-                } 
-                    
+
+                }
+
             } else {
-                
-                if( (ballData.getRight()+ballData.getSpeedX()) > viewMaxWidth ) {
-                    
-                    //Reset
-                    ballData.setRight((int)((viewMaxWidth*2)-(ballData.getRight()+ballData.getSpeedX())));
-    
+
+                if ((ballData.getRight() + ballData.getSpeedX()) > viewMaxWidth) {
+
+                    // Reset
+                    ballData.setRight((int) ((viewMaxWidth * 2) - (ballData.getRight() + ballData
+                            .getSpeedX())));
+
                     // Let's play a sound
                     soundWallBounce.start();
-    
+
                     // Toggle the direction
                     ballData.setDirectionX(Ball.DIRECTION_LEFT);
-                    
+
                 }
-                
+
             }
-                
+
             // Let's do something about it
             ballData.move();
-            
+
         }
 
+        /*
+         * Method to check for collisions between the ball and blocks
+         */
         private void processForBlockCollision() {
 
             // Time to see if we hit a block...
@@ -816,7 +935,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
                 // Let's see
                 if (!blocks[count].isDestroyed()
                         && Rect.intersects(ballData.getRectangle(), blocks[count].getRectangle())) {
-                    
+
                     // Disable the block
                     if (blocks[count].isEnabled()) {
 
@@ -837,54 +956,91 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
                     // Otherwise...
                     int collisionDirection = blocks[count].getCollisionDirection(ballData);
-                    if( collisionDirection == Ball.DIRECTION_LEFT || collisionDirection == Ball.DIRECTION_RIGHT ) {
-                        
-                        Log.d(Constants.DEBUG_TAG, "Collided from " + ( (collisionDirection == Ball.DIRECTION_LEFT )? "LEFT" : "RIGHT"));
+                    if (collisionDirection == Ball.DIRECTION_LEFT
+                            || collisionDirection == Ball.DIRECTION_RIGHT) {
+
+                        if (collisionDirection == Ball.DIRECTION_LEFT
+                                && ballData.getDirectionX() == Ball.DIRECTION_RIGHT) {
+
+                            ballData.setRight(ballData.getRight()
+                                    - (blocks[count].getLeft() - ballData.getRight()));
+                            ballData.setDirectionX(Ball.DIRECTION_LEFT);
+                            Log.d(Constants.DEBUG_TAG, "Collided on the left side");
+
+                        } else {
+
+                            ballData.setRight(ballData.getLeft()
+                                    + (blocks[count].getRight() - ballData.getLeft()));
+                            ballData.setDirectionX(Ball.DIRECTION_RIGHT);
+                            Log.d(Constants.DEBUG_TAG, "Collided on the right side");
+
+                        }
                         ballData.toggleDirectionX();
-                        
+
                     } else {
 
-                        Log.d(Constants.DEBUG_TAG, "Collided from " + ( (collisionDirection == Ball.DIRECTION_UP )? "UP" : "DOWN"));
-                        ballData.toggleDirectionY();
-                        
+                        if (collisionDirection == Ball.DIRECTION_UP
+                                && ballData.getDirectionY() == Ball.DIRECTION_DOWN) {
+
+                            ballData.setBottom(ballData.getBottom()
+                                    - (blocks[count].getTop() - ballData.getBottom()));
+                            ballData.setDirectionY(Ball.DIRECTION_UP);
+                            Log.d(Constants.DEBUG_TAG, "Collided on the top");
+
+                        } else {
+
+                            ballData.setTop(ballData.getTop()
+                                    + (blocks[count].getBottom() - ballData.getTop()));
+                            ballData.setDirectionY(Ball.DIRECTION_DOWN);
+                            Log.d(Constants.DEBUG_TAG, "Collided on the bottom");
+
+                        }
+
                     }
                 }
 
             }
 
         }
-        
-        public void handlePaddleBounce() {
-            
+
+        /*
+         * Method to handle the bounce off the paddle
+         */
+        private void handlePaddleBounce() {
+
             int ballOnPaddlePosition = paddleData.calculateIntersectX(ballData.getRectangle());
-            double multiplier = 180.0/paddleData.getWidth();
+            double multiplier = 180.0 / paddleData.getWidth();
             double paddleDegrees = ballOnPaddlePosition * multiplier;
             double paddleCos = -Math.cos(Math.toRadians(paddleDegrees));
-            double paddleSin = Math.sin(Math.toRadians(paddleDegrees));                    
+            double paddleSin = Math.sin(Math.toRadians(paddleDegrees));
             double speedPaddleX = Ball.DEFAULT_SPEED_X * paddleCos;
             double speedPaddleY = Ball.DEFAULT_SPEED_Y * paddleSin;
-            
-            //Set the speed (Y-axis)
-            ballData.setSpeedY(speedPaddleY);            
-            
-            //Update the direction
-            if( paddleCos > 0.0 ) { 
+
+            // Set the speed (Y-axis)
+            ballData.setSpeedY(speedPaddleY);
+
+            // Update the direction
+            if (paddleCos > 0.0) {
 
                 ballData.setDirectionX(Ball.DIRECTION_RIGHT);
                 ballData.setSpeedX(speedPaddleX);
-                
+
             } else {
-                
+
                 ballData.setDirectionX(Ball.DIRECTION_LEFT);
                 ballData.setSpeedX(-speedPaddleX);
-                
+
             }
 
             // Set the direction
             ballData.setDirectionY(Ball.DIRECTION_UP);
-            
+
         }
 
+        /*
+         * Method to get the running flag
+         * @return boolean Whether or not it's running
+         */
         public boolean isRunning() {
 
             return running;

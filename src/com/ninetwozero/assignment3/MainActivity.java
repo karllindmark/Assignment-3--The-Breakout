@@ -11,6 +11,7 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
  */
+
 package com.ninetwozero.assignment3;
 
 import android.app.Activity;
@@ -28,6 +29,12 @@ public class MainActivity extends Activity {
 
     // Elements
     private TextView textTap;
+
+    /*
+     * Standard onCreate() that initiates the MainActivity
+     * @param Bundle The savedInstanceState
+     * @see android.app.Activity#onCreate(android.os.Bundle)
+     */
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,6 +68,11 @@ public class MainActivity extends Activity {
         animations.start();
 
     }
+
+    /*
+     * onClick handler for the R.id.root (as specified in xml)
+     * @param View The clicked view
+     */
 
     public void onClick(View v) {
 
