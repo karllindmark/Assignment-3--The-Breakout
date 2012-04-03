@@ -1,0 +1,20 @@
+bin/res
+bin/classes
+bin/classes.dex
+bin/resources.ap_
+gen
+
+
+#IntelliJ IDEA#
+###############
+*.iml
+*.ipr
+*.iws
+.idea
+target
+
+#Eclipse#
+#########
+.settings
+.classpath
+.project
