@@ -11,14 +11,7 @@ public final class R {
     public static final class attr {
     }
     public static final class drawable {
-        public static final int app_bg=0x7f020000;
-        public static final int app_bg_tiled=0x7f020001;
-        public static final int app_lunar_lander=0x7f020002;
-        public static final int earthrise=0x7f020003;
-        public static final int ic_launcher=0x7f020004;
-        public static final int lander_crashed=0x7f020005;
-        public static final int lander_firing=0x7f020006;
-        public static final int lander_plain=0x7f020007;
+        public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
         public static final int gamesurfaceview=0x7f060003;
@@ -46,18 +39,14 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f050000;
-        public static final int info_gameover=0x7f05000b;
-        public static final int info_gameover_restart=0x7f05000c;
-        public static final int info_main_start=0x7f05000d;
-        public static final int info_top_lives=0x7f050009;
-        public static final int info_top_score=0x7f05000a;
-        public static final int menu_pause=0x7f050003;
-        public static final int menu_resume=0x7f050004;
-        public static final int menu_start=0x7f050001;
-        public static final int menu_stop=0x7f050002;
-        public static final int message_stopped=0x7f050008;
-        public static final int mode_lose=0x7f050007;
-        public static final int mode_pause=0x7f050006;
-        public static final int mode_ready=0x7f050005;
+        public static final int info_gameover=0x7f050007;
+        public static final int info_gameover_restart=0x7f050008;
+        public static final int info_main_start=0x7f050009;
+        public static final int info_top_lives=0x7f050005;
+        public static final int info_top_score=0x7f050006;
+        public static final int message_stopped=0x7f050004;
+        public static final int mode_lose=0x7f050003;
+        public static final int mode_pause=0x7f050002;
+        public static final int mode_ready=0x7f050001;
     }
 }
